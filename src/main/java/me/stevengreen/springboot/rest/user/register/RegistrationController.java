@@ -17,7 +17,22 @@ public class RegistrationController {
 	 * @return Response Entity indicating if the login was successful or not
 	 */
 	@PostMapping("/user/register")
-	public ResponseEntity<String> register() {
-		return new ResponseEntity<String>("", HttpStatus.ACCEPTED);
+	public ResponseEntity<RegistrationResponse> register() {
+		RegistrationResponse response = new RegistrationResponse("Message");
+		return new ResponseEntity<RegistrationResponse>(response, HttpStatus.ACCEPTED);
+	}
+	
+	/**
+	 * Inner class for the response to the registration endpoint
+	 * @author Steven Green
+	 *
+	 */
+	@SuppressWarnings("unused")
+	private class RegistrationResponse {
+		private String message;
+
+		public RegistrationResponse(String message) {
+			this.message = message;
+		}
 	}
 }
