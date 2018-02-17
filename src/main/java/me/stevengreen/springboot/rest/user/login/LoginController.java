@@ -18,7 +18,30 @@ public class LoginController {
 	 * If the login was successful, a JWT token will be returned.
 	 */
 	@PostMapping("/user/login")
-	public ResponseEntity<String> login() {
-		return new ResponseEntity<String>("", HttpStatus.ACCEPTED);
+	public ResponseEntity<LoginResponse> login() {
+		LoginResponse response = new LoginResponse("No username provided");
+		return new ResponseEntity<LoginResponse>(response, HttpStatus.UNAUTHORIZED);
 	}
+	
+	/**
+	 * Inner login response class
+	 * @author Steven Green
+	 *
+	 */
+	@SuppressWarnings("unused")
+	private class LoginResponse {
+
+		private String message;
+		private String token;
+		
+		public LoginResponse(String message) {
+			this(message, null);
+		}
+		
+		public LoginResponse(String message, String token) {
+			this.message = message;
+			this.token = token;
+		}
+	}
+	
 }
