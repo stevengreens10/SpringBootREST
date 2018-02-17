@@ -16,7 +16,7 @@ public class RegistrationController {
 	 * REST endpoint for user registration
 	 * @return Response Entity indicating if the login was successful or not
 	 */
-	@PostMapping("/user/register")
+	@PostMapping(value = "/user/register", produces = "application/json")
 	public ResponseEntity<RegistrationResponse> register() {
 		RegistrationResponse response = new RegistrationResponse("Message");
 		return new ResponseEntity<RegistrationResponse>(response, HttpStatus.ACCEPTED);
@@ -32,6 +32,14 @@ public class RegistrationController {
 		private String message;
 
 		public RegistrationResponse(String message) {
+			this.message = message;
+		}
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(String message) {
 			this.message = message;
 		}
 	}
