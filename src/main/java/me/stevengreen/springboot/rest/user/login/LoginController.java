@@ -1,8 +1,11 @@
 package me.stevengreen.springboot.rest.user.login;
 
+import me.stevengreen.springboot.rest.user.User;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,11 +17,12 @@ public class LoginController {
 
 	/**
 	 * REST endpoint for user authentication
+	 * @param user User object containing authentication information
 	 * @return Response Entity indicating if the login was successful or not
 	 * If the login was successful, a JWT token will be returned.
 	 */
 	@PostMapping(value = "/user/login", produces = "application/json")
-	public ResponseEntity<LoginResponse> login() {
+	public ResponseEntity<LoginResponse> login(@RequestBody User user) {
 		LoginResponse response = new LoginResponse("No username provided");
 		return new ResponseEntity<LoginResponse>(response, HttpStatus.UNAUTHORIZED);
 	}
