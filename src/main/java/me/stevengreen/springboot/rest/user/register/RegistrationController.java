@@ -33,18 +33,18 @@ public class RegistrationController {
 	 */
 	@SuppressWarnings("unused")
 	private class RegistrationResponse {
-		private String message;
+		private String status;
 
-		public RegistrationResponse(String message) {
-			this.message = message;
+		public RegistrationResponse(String status) {
+			setStatus(status);
 		}
 
 		public String getMessage() {
-			return message;
+			return status;
 		}
 
-		public void setMessage(String message) {
-			this.message = message;
+		public void setStatus(String status) {
+			this.status = status;
 		}
 	}
 }

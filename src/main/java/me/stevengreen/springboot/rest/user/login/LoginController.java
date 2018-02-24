@@ -36,15 +36,9 @@ public class LoginController {
 	private class LoginResponse {
 
 		private String message;
-		private String token;
 		
 		public LoginResponse(String message) {
-			this(message, null);
-		}
-		
-		public LoginResponse(String message, String token) {
 			setMessage(message);
-			setToken(token);
 		}
 
 		public String getMessage() {
@@ -55,13 +49,6 @@ public class LoginController {
 			this.message = message;
 		}
 
-		public String getToken() {
-			return token;
-		}
-
-		public void setToken(String token) {
-			this.token = token;
-		}
 	}
 	
 }

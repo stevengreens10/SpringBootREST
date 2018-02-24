@@ -12,6 +12,13 @@ public class User {
 	private String password;
 	
 	/**
+	 * Default constructor
+	 */
+	public User() {
+		
+	}
+	
+	/**
 	 * Constructs UserDocument object with all fields
 	 * @param username The user's username
 	 * @param password The user's unhashed password
