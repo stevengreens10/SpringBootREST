@@ -46,9 +46,11 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 
         Cookie tokenCookie = null;
 
-        for (Cookie c : cookies) {
-            if (c.getName().equals("token")) {
-                tokenCookie = c;
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals("token")) {
+                    tokenCookie = c;
+                }
             }
         }
 
