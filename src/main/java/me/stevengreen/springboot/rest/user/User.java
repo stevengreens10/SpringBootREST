@@ -45,19 +45,19 @@ public class User {
 	}
 
 	/**
-	 * Gets the user's password hash
-	 * @return the passwordHash
+     * Gets the user's password
+     * @return the the password
 	 */
-	public String getPasswordHash() {
+    public String getPassword() {
 		return password;
 	}
 
 	/**
 	 * Sets the user's password hash
-	 * @param passwordHash the passwordHash to set
+     * @param password the password to set
 	 */
-	public void setPasswordHash(String passwordHash) {
-		this.password = passwordHash;
+    public void setPasswordHash(String password) {
+        this.password = password;
 	}
 
 }

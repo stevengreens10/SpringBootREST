@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // Authorize requests to /auth/anything
                 .authorizeRequests()
-                .antMatchers("/auth/**", "/register").permitAll()
+                .antMatchers("/user/login", "/user/register").permitAll()
                 .and()
                 // Authenticate all other paths
                 .authorizeRequests()

@@ -1,7 +1,8 @@
 package me.stevengreen.springboot.rest.user.login;
 
+import me.stevengreen.springboot.rest.user.JwtService;
 import me.stevengreen.springboot.rest.user.User;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-	/**
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private LoginService loginService;
+
+    /**
 	 * REST endpoint for user authentication
 	 * @param user User object containing authentication information
 	 * @return Response Entity indicating if the login was successful or not
@@ -23,8 +29,16 @@ public class LoginController {
 	 */
 	@PostMapping(value = "/user/login", produces = "application/json")
 	public ResponseEntity<LoginResponse> login(@RequestBody User user) {
-		LoginResponse response = new LoginResponse("No username provided");
-		return new ResponseEntity<LoginResponse>(response, HttpStatus.UNAUTHORIZED);
+        LoginResponse response;
+        HttpStatus status;
+        if (loginService.login(user)) {
+            response = new LoginResponse("Token: " + jwtService.generate(user));
+            status = HttpStatus.OK;
+        } else {
+            response = new LoginResponse("Invalid login.");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<>(response, status);
 	}
 	
 	/**

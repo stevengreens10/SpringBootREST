@@ -23,7 +23,7 @@ import java.util.List;
 public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String PROCESS_URL = "/**";
-    private static final List<String> SKIPPED_URLS = Arrays.asList("/auth/**", "/register");
+    private static final List<String> SKIPPED_URLS = Arrays.asList("/user/login", "/user/register");
 
     /**
      * Constructs the filter with the URLs not to authenticate
