@@ -3,6 +3,8 @@ package me.stevengreen.springboot.document;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 /**
  * Object stored in MongoDB
  * @author Steven Green
@@ -14,21 +16,18 @@ public class UserDocument {
 	@Id
 	private String username;
 	private String passwordHash;
-	private int salt;
-	
-	/**
-	 * Constructs UserDocument object with all fields
-	 * @param username The user's username
-	 * @param passwordHash The salted hash for the user's password
-	 * @param salt The salt for the password's hash
-	 */
-	public UserDocument(String username, String passwordHash, int salt) {
-		this.username = username;
-		this.passwordHash = passwordHash;
-		this.salt = salt;
-	}
+    private List<UserRole> roles;
 
-	/**
+    public UserDocument() {
+    }
+
+    public UserDocument(String username, String passHash, List<UserRole> roles) {
+        this.username = username;
+        this.passwordHash = passHash;
+        this.roles = roles;
+    }
+
+    /**
 	 * Gets the user's username
 	 * @return the username
 	 */
@@ -60,19 +59,7 @@ public class UserDocument {
 		this.passwordHash = passwordHash;
 	}
 
-	/**
-	 * Gets the user's salt for the password hash
-	 * @return the salt
-	 */
-	public int getSalt() {
-		return salt;
-	}
-
-	/**
-	 * Sets the salt for the user's password hash
-	 * @param salt the salt to set
-	 */
-	public void setSalt(int salt) {
-		this.salt = salt;
-	}
+    public List<UserRole> getRoles() {
+        return roles;
+    }
 }
