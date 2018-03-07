@@ -20,11 +20,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 public class SpringBootApp {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
+    private final UserRepository userRepository;
+
+    /**
+     * Constructor for dependency injection
+     *
+     * @param passwordEncoder PasswordEncoder instance
+     * @param userRepository  UserRepository instance
+     */
     @Autowired
-    private UserRepository userRepository;
+    public SpringBootApp(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     /**
      * Main method for the application.
@@ -47,11 +57,21 @@ public class SpringBootApp {
                 .passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * Use BCrypt to "encode" passwords
+     *
+     * @return The BCryptPasswordEncoder instance
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Sets custom user details service
+     *
+     * @return UserDetailsService instance
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> new CustomUserDetails(userRepository.findByUsername(username));

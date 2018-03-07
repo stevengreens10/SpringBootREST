@@ -6,12 +6,32 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * Configures global authentication manager builder
+ *
+ * @author Steven Green
+ */
 @Configuration
 public class GlobalAuthenticationConfig extends GlobalAuthenticationConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsServices;
+    private final UserDetailsService userDetailsServices;
 
+    /**
+     * Constructor for dependency injection
+     *
+     * @param userDetailsServices The user details service instance
+     */
+    @Autowired
+    public GlobalAuthenticationConfig(UserDetailsService userDetailsServices) {
+        this.userDetailsServices = userDetailsServices;
+    }
+
+    /**
+     * Initial configuration of authentication manager builder
+     *
+     * @param auth AuthenticationMangerBuilder object
+     * @throws Exception if an error occurs when setting user details service
+     */
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsServices);

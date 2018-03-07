@@ -24,14 +24,37 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
+    /**
+     * Constructor for dependency injection
+     *
+     * @param authenticationManager AuthenticationManger instance
+     */
+    @Autowired
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    /**
+     * Creates JwtTokenStore - Doesn't really store anything since JWTs do not need to persist.
+     * <p>
+     * Translates access tokens to and from authentications.
+     *
+     * @return Token store instance
+     */
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
+    /**
+     * Creates JwtAccessTokenConverter
+     * <p>
+     * Signs JWTs and helps translate signed JWTs to authentications and vice versa.
+     *
+     * @return JwtAccessTokenConverter instance
+     */
     @Bean
     protected JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -39,6 +62,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return converter;
     }
 
+    /**
+     * Custom token services to set token store and enable refresh tokens
+     *
+     * @return DefaultTokenServices instance
+     */
     @Bean
     @Primary
     public DefaultTokenServices tokenServices() {
@@ -49,8 +77,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * @param security
-     * @throws Exception
+     * Configues the security of the Authorization Server, specifically the /oauth/token endpoint.
+     *
+     * @param security The security configurer
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
@@ -58,8 +87,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     /**
-     * @param clients
-     * @throws Exception
+     * Configures fundamentals for authorization server: client id, grant types, token expiration, etc.
+     *
+     * @param clients The configurer for client details services
+     * @throws Exception from clients.inMemory() call
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -69,13 +100,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("read", "write", "trust")
                 .resourceIds("oauth2-resource")
                 .accessTokenValiditySeconds(60 * 10)
-                .refreshTokenValiditySeconds(60 * 60)
-                .secret("secret");
+                .refreshTokenValiditySeconds(60 * 60);
+        // Don't use a secret since it can't be stored safely on browser front-end
+        //.secret("secret");
     }
 
     /**
-     * @param endpoints
-     * @throws Exception
+     * Configures non-security related aspects of the authorization server.
+     * <p>
+     * Provides token store, token converter, and authentication manager (necessary for password grants)
+     *
+     * @param endpoints The endpoints configurer
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {

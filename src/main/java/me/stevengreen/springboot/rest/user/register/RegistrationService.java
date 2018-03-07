@@ -12,15 +12,33 @@ import java.util.Arrays;
 
 /**
  * Service for registering users
+ *
+ * @author Steven Green
  */
 @Service
 public class RegistrationService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Constructor for dependency injection
+     *
+     * @param userRepository  UserRepository instance
+     * @param passwordEncoder PasswordEncoder instance
+     */
+    @Autowired
+    public RegistrationService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * Registers a user
+     *
+     * @param user The user to register
+     * @return Whether registration was successful or not
+     */
     public boolean register(User user) {
         UserDocument dbUser = userRepository.findByUsername(user.getUsername());
 

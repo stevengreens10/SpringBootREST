@@ -42,11 +42,25 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         config.tokenServices(tokenServices());
     }
 
+    /**
+     * Creates JwtTokenStore - Doesn't really store anything since JWTs do not need to persist.
+     * <p>
+     * Translates access tokens to and from authentications.
+     *
+     * @return Token store instance
+     */
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 
+    /**
+     * Creates JwtAccessTokenConverter
+     * <p>
+     * Signs JWTs and helps translate signed JWTs to authentications and vice versa.
+     *
+     * @return JwtAccessTokenConverter instance
+     */
     @Bean
     protected JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -54,6 +68,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         return converter;
     }
 
+    /**
+     * Custom token services to set token store and enable refresh tokens
+     *
+     * @return DefaultTokenServices instance
+     */
     @Bean
     @Primary
     public DefaultTokenServices tokenServices() {
